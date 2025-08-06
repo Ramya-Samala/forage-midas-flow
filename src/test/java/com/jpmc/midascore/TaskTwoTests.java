@@ -8,6 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 @SpringBootTest
 @DirtiesContext
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
@@ -22,7 +25,12 @@ class TaskTwoTests {
 
     @Test
     void task_two_verifier() throws InterruptedException {
-        String[] transactionLines = fileLoader.loadStrings("/test_data/poiuytrewq.uiop");
+        //String[] transactionLines = fileLoader.loadStrings("/test_data/poiuytrewq.uiop");
+        String[] transactionLines = new BufferedReader(
+                new InputStreamReader(getClass().getResourceAsStream("/test_data/poiuytrewq.uiop")))
+                .lines()
+                .toArray(String[]::new);
+        //logger.info("index:"+ transactionLines[0]);
         for (String transactionLine : transactionLines) {
             kafkaProducer.send(transactionLine);
         }
