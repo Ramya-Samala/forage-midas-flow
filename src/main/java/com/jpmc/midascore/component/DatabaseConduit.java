@@ -36,6 +36,7 @@ public class DatabaseConduit {
         recipient.setBalance(recipient.getBalance() + amount);
        // logger.info("balance:{0} and name:{1}",sender.getBalance(),sender.getName());
 
+
         // Save updated balances
         userRepository.save(sender);
         userRepository.save(recipient);
